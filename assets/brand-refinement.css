@@ -33,3 +33,17 @@ h1,h2,h3,h4,.hero h1,.page-hero h1,.product-feature-copy h2,.project-copy h3{fon
 body:has(.service-illustration) .service-hero-collage figure{border:0;box-shadow:none;background:none;border-radius:0}body:has(.service-illustration) .service-hero-collage img{object-fit:contain}
 
 .service-hero-collage figure{padding:0!important}.service-hero-collage img{object-fit:contain!important;border-radius:0!important}
+
+/* Simple contact layout: one introduction, contact details and enquiry form. */
+.contact-simple{padding:78px 0 96px;background:linear-gradient(135deg,#f0f6ff 0%,#fff 60%)}
+.contact-simple .contact-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);align-items:start;gap:75px}
+.contact-simple h1{font-size:clamp(38px,4vw,60px);line-height:1.12;letter-spacing:-2.4px;margin:16px 0 24px}
+.contact-simple .lead{font-size:18px;line-height:1.8;max-width:440px;margin-bottom:34px}
+.contact-simple .contact-form{padding:36px;border:1px solid #dce6f6;border-radius:24px;background:#fff;box-shadow:0 18px 50px #153b7310}
+.contact-simple .contact-form h2{font-size:28px;margin-bottom:10px}.contact-simple .form-intro{margin-bottom:26px}
+.contact-simple .contact-method{padding-block:20px}.contact-simple .contact-method b{overflow-wrap:anywhere}
+.contact-simple .form-bottom{align-items:center}.contact-simple .form-bottom p{font-size:14px;max-width:260px}
+@media(max-width:900px){.contact-simple{padding:48px 0 64px}.contact-simple .contact-grid{gap:40px;grid-template-columns:1fr}.contact-simple .contact-form{padding:26px}.contact-simple h1{letter-spacing:-1.5px}.contact-simple .lead{max-width:560px}}
+@media(max-width:480px){.contact-simple .contact-form{padding:24px 20px}.contact-simple .form-row{grid-template-columns:1fr}.contact-simple .form-bottom{align-items:stretch}.contact-simple .form-bottom p{max-width:none}}
+
+.contact-simple .form-row>label:only-child{grid-column:1/-1}

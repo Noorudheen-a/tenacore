@@ -8,4 +8,4 @@ Write for business owners and teams without a technical background. Use concrete
 
 Use short sentences and descriptive headings. Avoid slogans that need interpretation, unsupported promises, invented results, and describing Tenacore as only a design agency. Project pages describe the visible design work without claiming unverified commercial outcomes.
 
-Contact form copy must accurately explain that the current form opens an email draft.
+The production contact form sends through contact-send.php. Static previews use an email draft fallback. Copy must accurately describe the active delivery method.
