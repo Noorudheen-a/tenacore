@@ -1,0 +1,28 @@
+'use strict';
+const menu=document.querySelector('.menu-toggle');
+const nav=document.getElementById('main-nav');
+const productToggle=document.querySelector('.product-toggle');
+const products=document.getElementById('product-menu');
+function closeProducts(){productToggle.setAttribute('aria-expanded','false');products.hidden=true;}
+function closeNavigation(){menu.setAttribute('aria-expanded','false');menu.setAttribute('aria-label','Open navigation');nav.classList.remove('is-open');closeProducts();}
+menu.addEventListener('click',()=>{const opened=menu.getAttribute('aria-expanded')!=='true';menu.setAttribute('aria-expanded',String(opened));menu.setAttribute('aria-label',opened?'Close navigation':'Open navigation');nav.classList.toggle('is-open',opened);if(!opened)closeProducts();});
+productToggle.addEventListener('click',()=>{const opened=productToggle.getAttribute('aria-expanded')!=='true';productToggle.setAttribute('aria-expanded',String(opened));products.hidden=!opened;});
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-product'))closeProducts();if(!e.target.closest('.site-header'))closeNavigation();});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if(productToggle.getAttribute('aria-expanded')==='true'){closeProducts();productToggle.focus();}else if(menu.getAttribute('aria-expanded')==='true'){closeNavigation();menu.focus();}}});
+nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',closeNavigation));
+document.querySelectorAll('[data-year]').forEach(el=>el.textContent=new Date().getFullYear());
+const filters=document.querySelectorAll('[data-filter]');
+filters.forEach(button=>button.addEventListener('click',()=>{const selected=button.dataset.filter;filters.forEach(f=>f.setAttribute('aria-pressed',String(f===button)));let count=0;document.querySelectorAll('[data-category]').forEach(card=>{card.hidden=selected!=='all'&&card.dataset.category!==selected;if(!card.hidden)count++;});const status=document.getElementById('filter-status');if(status)status.textContent=`Showing ${count} ${count===1?'project':'projects'}.`;}));
+const form=document.getElementById('contact-form');
+if(form){const config=window.TENACORE_CONFIG||{};const endpoint=config.formEndpoint?.trim();const label=document.getElementById('submit-label');const explanation=document.getElementById('form-explanation');const status=document.getElementById('form-status');if(endpoint){label.textContent='Send enquiry';explanation.textContent='We’ll use these details to respond to your enquiry.';}
+ const interest=new URLSearchParams(location.search).get('interest');if(interest){const select=form.elements.interest;const existing=[...select.options].find(o=>o.value.toLowerCase()===interest.toLowerCase());if(existing)select.value=existing.value;else{const option=document.createElement('option');option.value=interest;option.textContent=interest;select.add(option);select.value=interest;}}
+ form.addEventListener('submit',async e=>{e.preventDefault();if(!form.reportValidity())return;const data=new FormData(form);if(data.get('website'))return;const button=form.querySelector('[type=submit]');status.textContent='';
+ if(!endpoint){const subject=`Tenacore enquiry: ${data.get('interest')}`;const body=`Hello Tenacore,\n\n${data.get('message')}\n\nName: ${data.get('name')}\nEmail: ${data.get('email')}\nPhone: ${data.get('phone')||'Not provided'}\nCompany: ${data.get('company')||'Not provided'}\nInterested in: ${data.get('interest')}`;location.href=`mailto:info@tenacore.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;status.textContent='Your email draft is ready to open. Send it from your email app. If no app opens, email info@tenacore.com directly. Your entries are preserved.';return;}
+ button.disabled=true;label.textContent='Sending…';try{const response=await fetch(endpoint,{method:'POST',body:data,headers:{Accept:'application/json'}});if(!response.ok)throw new Error('Submission failed');const result=await response.json();if(result.success===false||result.error)throw new Error('Submission failed');sessionStorage.setItem('tenacoreEnquirySent','1');location.assign('thank-you.html');}catch(error){status.textContent='Your enquiry could not be sent. Please try again or email info@tenacore.com. Your entries are preserved.';button.disabled=false;label.textContent='Send enquiry';}
+ });
+}
+if(location.pathname.endsWith('thank-you.html')&&sessionStorage.getItem('tenacoreEnquirySent')==='1'){document.getElementById('thank-title').innerHTML='Thank you for your enquiry.';document.getElementById('thank-description').textContent='Your enquiry has been submitted successfully. We’ll read your message and get in touch to discuss the next steps.';sessionStorage.removeItem('tenacoreEnquirySent');}
+// The hero lets visitors explore three business needs without leaving the page.
+const capabilityTabs=[...document.querySelectorAll('.showcase-nav [role="tab"]')];
+function chooseCapability(tab){capabilityTabs.forEach(t=>{const active=t===tab;t.setAttribute('aria-selected',String(active));t.tabIndex=active?0:-1;document.getElementById(t.getAttribute('aria-controls')).hidden=!active;});}
+capabilityTabs.forEach((tab,index)=>{tab.addEventListener('click',()=>chooseCapability(tab));tab.addEventListener('keydown',e=>{let next;if(e.key==='ArrowRight')next=capabilityTabs[(index+1)%capabilityTabs.length];if(e.key==='ArrowLeft')next=capabilityTabs[(index+capabilityTabs.length-1)%capabilityTabs.length];if(e.key==='Home')next=capabilityTabs[0];if(e.key==='End')next=capabilityTabs.at(-1);if(next){e.preventDefault();chooseCapability(next);next.focus();}});});
