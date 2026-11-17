@@ -36,7 +36,7 @@ if ($name === '' || strlen($name) > 400 || preg_match('/[\r\n]/', $name) ||
 // Limit repeated sends without keeping enquiry content on the server.
 $ratePath = sys_get_temp_dir() . '/tenacore-contact-' . hash('sha256', $_SERVER['REMOTE_ADDR'] ?? 'unknown');
 $lock = @fopen($ratePath, 'c+');
-if ($lock === false || !flock($lock, LOCK_EX)) respond(503, false, 'Please try again shortly or email info@tenacore.com.');
+if ($lock === false || !flock($lock, LOCK_EX)) respond(503, false, 'Please try again shortly or email info@tenacore.in.');
 $last = (int)stream_get_contents($lock);
 if ($last > time() - 60) { fclose($lock); respond(429, false, 'Please wait a minute before sending another message.'); }
 $body = "New enquiry from tenacore.in\n\nName: $name\nEmail: $email\nPhone: " . ($phone ?: 'Not provided') . "\nService: $interest\n\nMessage:\n$message\n";
@@ -46,8 +46,8 @@ $headers = [
     'MIME-Version: 1.0',
     'Content-Type: text/plain; charset=UTF-8',
 ];
-$sent = @mail('info@tenacore.com', 'New website enquiry | Tenacore', $body, implode("\r\n", $headers));
+$sent = @mail('info@tenacore.in', 'New website enquiry | Tenacore', $body, implode("\r\n", $headers));
 if ($sent) { rewind($lock); ftruncate($lock, 0); fwrite($lock, (string)time()); }
 flock($lock, LOCK_UN); fclose($lock);
-if (!$sent) respond(503, false, 'We could not send your message. Please email info@tenacore.com or try again later.');
+if (!$sent) respond(503, false, 'We could not send your message. Please email info@tenacore.in or try again later.');
 respond(200, true, 'Your message has been sent. We’ll get back to you soon.');

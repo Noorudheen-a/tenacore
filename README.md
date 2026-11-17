@@ -19,7 +19,7 @@ Home; About Us; Products; Billing Solutions; Network Solutions; Services; Portfo
 
 ## Enquiries
 
-Without a configured endpoint, the form opens an email draft to info@tenacore.com. The visitor must send that email. No delivery confirmation is shown.
+Without a configured endpoint, the form opens an email draft to info@tenacore.in. The visitor must send that email. No delivery confirmation is shown.
 
 For direct submission, configure assets/config.js with a form endpoint appropriate for your host/provider and adapt the request/response handling as needed. Do not place secret credentials in client-side JavaScript. Test end-to-end delivery after configuration. Only a successful configured submission redirects to thank-you.html; direct visits to that page show neutral contact information.
 
