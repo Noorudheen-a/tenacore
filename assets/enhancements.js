@@ -16,7 +16,7 @@
  applyMotion();
  const product=document.querySelector('.nav-product');const trigger=document.querySelector('.product-toggle');const panel=document.getElementById('product-menu');let closeTimer;
  function openMenu(){clearTimeout(closeTimer);trigger.setAttribute('aria-expanded','true');panel.hidden=false;}
- product.addEventListener('pointerenter',e=>{if(hover.matches&&e.pointerType!=='touch')openMenu();});
+ product.addEventListener('pointerenter',e=>{if(hover.matches&&innerWidth>700&&e.pointerType!=='touch')openMenu();});
  product.addEventListener('pointerleave',()=>{if(hover.matches)closeTimer=setTimeout(()=>{if(!product.contains(document.activeElement))closeProducts();},150);});
  product.addEventListener('focusin',e=>{if(e.target!==trigger)openMenu();});
  product.addEventListener('focusout',()=>setTimeout(()=>{if(!product.contains(document.activeElement))closeProducts();},0));
